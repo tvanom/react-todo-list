@@ -6,23 +6,14 @@ export class TodoItem extends Component {
     isEditing: false,
     title: this.props.todo.title || ""
   }
-  
-  getStyle = () => {
-    return {
-      background: "#f4f4f4",
-      padding: "10px",
-      borderBottom: "1px #ccc dotted",
-      textDecoration: this.props.todo.completed ? 
-      "line-through" : "none"
-    }
+
+  toggleIsEditing = () => {
+    this.setState({isEditing: !this.state.isEditing});
   }
 
-  handleEditItem = () => {
-    this.setState({isEditing: !this.state.isEditing});
-
-    if(this.state.isEditing){
-      this.props.editItem(this.props.todo.id,this.state.title)
-    }
+  handleSaveItem = () => {
+    this.toggleIsEditing();
+    this.props.editItem(this.props.todo.id,this.state.title);
   }
 
   onChange = (event) => {
@@ -31,23 +22,28 @@ export class TodoItem extends Component {
 
   render() {
     const {id, title} = this.props.todo;
-    let titleDisplay  = <p>{title}</p>;
-    let editButton    = <button onClick={this.handleEditItem}>Edit</button>;
+    let completedClass = this.props.todo.completed ? "completed" : "";
 
+    let titleDisplay  = <span className={this.props.todo.completed ? "completed" : null}>{title}</span>;
+    let editButton    = <a className="button" onClick={this.toggleIsEditing}>Edit</a>;
+
+    /** @todo convert this to ternary? */
     if(this.state.isEditing)
     {
-      titleDisplay = <input type="text" value={this.state.title} onChange={this.onChange} />
-      editButton   = <button onClick={this.handleEditItem}>Save</button>;
+      titleDisplay = <input type="text" className="text-input" value={this.state.title} onChange={this.onChange} />
+      editButton   = <a className="button" onClick={this.handleSaveItem}>Save</a>;
     }
 
     return (
-      <div style={this.getStyle()}>
-        <span>
-          <input type="checkbox" onChange={this.props.toggleItem.bind(this,id)}/>
+      <div className={`list-container__list-item`} >
+        <span className="list-item__info">
+          {this.state.isEditing ? null : <input type="checkbox" onClick={this.props.toggleItem.bind(this,id)} /> }
           {titleDisplay}
         </span>
-        {editButton}
-        <button onClick={this.props.deleteItem.bind(this,id)}>x</button>
+        <span className="list-item__buttons">
+          {editButton}
+          <a className="button" onClick={this.props.deleteItem.bind(this,id)}>x</a>
+        </span>
       </div>
     )
   }

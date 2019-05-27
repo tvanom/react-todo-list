@@ -5,15 +5,17 @@ import PropTypes from 'prop-types';
 export class TodoList extends Component {
   render() {
     return (
-        this.props.todoItems.map((todo) => (
-            <TodoItem 
-                key={todo.id} 
-                todo={todo} 
-                toggleItem={this.props.toggleItem} 
-                editItem={this.props.editItem}
-                deleteItem={this.props.deleteItem}
-            />
-        ))
+        <div className="list-container">
+          {this.props.todoItems.map((todo) => (
+              <TodoItem 
+                  key={todo.id} 
+                  todo={todo} 
+                  toggleItem={this.props.toggleItem} 
+                  editItem={this.props.editItem}
+                  deleteItem={this.props.deleteItem}
+              />
+          ))}
+        </div>
     )
   }
 }

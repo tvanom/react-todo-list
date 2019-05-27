@@ -11,8 +11,7 @@ export class AddTodo extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        if(this.state.title.trim() === "")
-        {
+        if(this.state.title.trim() === ""){
            return ;
         }
 
@@ -22,9 +21,15 @@ export class AddTodo extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit}>
-            <input type="text" value={this.state.title} onChange={this.onChange}/>
-            <input type="submit" value="+"/>
+            <form className="add-form" onSubmit={this.onSubmit}>
+            <input 
+                type="text" 
+                placeholder="Todo item" 
+                className="add-form__text-input text-input" 
+                value={this.state.title} 
+                onChange={this.onChange}
+            />
+            <input type="submit" className="add-form__submit button" value="Add"/>
             </form>
         )
     }
